@@ -20,21 +20,27 @@
 @property (nonatomic, assign) NSInteger location;
 @property (nonatomic, assign, readwrite) BOOL shouldSave;
 @property (strong, nonatomic) NSDate *lastSaveDate;
+@property (nonatomic, strong) NSMutableArray *heartRates;
 
 @end
 
-#define HTRUPDATE_INTERVAL 10
+#define HTRUPDATE_INTERVAL 30
 
 @implementation HTRHeartRateController
 
 - (void)startMonitoringHeartRate
 {
     self.heartRateMonitors = [NSMutableArray array];
+    self.heartRates = [NSMutableArray array];
     self.manager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     self.healthStore = [[HKHealthStore alloc] init];
+    if ( ![self.healthStore authorizationStatusForType:[HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate]] ) {
     [self.healthStore requestAuthorizationToShareTypes:[NSSet setWithObject:[HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierHeartRate]] readTypes:[NSSet set] completion:^(BOOL success, NSError *error) {
         self.shouldSave = success;
     }];
+    } else {
+        self.shouldSave = YES;
+    }
 }
 
 #pragma mark - Start/Stop Scan methods
@@ -102,7 +108,6 @@
 - (void)centralManager:(CBCentralManager *)central didRetrievePeripherals:(NSArray *)peripherals
 {
     NSLog(@"Retrieved peripheral: %lu - %@", (unsigned long)[peripherals count], peripherals);
-    [self stopScan];
     // If there are any known devices, automatically connect to it.
     if ( [peripherals count] >= 1 ) {
         self.peripheral = [peripherals objectAtIndex:0];
@@ -115,6 +120,7 @@
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)aPeripheral
 {
     NSLog(@"connected");
+    [self stopScan];
     self.peripheral = aPeripheral;
     [aPeripheral setDelegate:self];
     [aPeripheral discoverServices:nil];
@@ -122,12 +128,15 @@
 
 // Invoked when an existing connection with the peripheral is torn down.
 // Reset local variables
-- (void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)aPeripheral error:(NSError *)error
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)aPeripheral error:(NSError *)error
 {
+    [self.delegate heartRateControllerDidDisconnectFromDevice:self];
     if ( self.peripheral ) {
         [self.peripheral setDelegate:nil];
         self.peripheral = nil;
+        [self.heartRateMonitors removeAllObjects];
     }
+    [self startMonitoringHeartRate];
 }
 
 // Invoked when the central manager fails to create a connection with the peripheral.
@@ -203,6 +212,7 @@
 // Update UI with heart rate data received from device
 - (void)updateWithHRMData:(NSData *)data
 {
+    NSInteger averageRate;
     const uint8_t *reportData = [data bytes];
     uint16_t bpm = 0;
     
@@ -215,8 +225,14 @@
     }
     NSLog(@"bpm %d", bpm);
     [self.delegate heartRateController:self didUpdateHeartRate:bpm];
-    
+    [self.heartRates addObject:@(bpm)];
     if ( self.shouldSave && (!self.lastSaveDate || abs([self.lastSaveDate timeIntervalSinceNow]) > HTRUPDATE_INTERVAL) ) {
+        averageRate = 0;
+        for ( NSNumber *rate in self.heartRates ) {
+            averageRate += rate.integerValue;
+        }
+        averageRate = averageRate/self.heartRates.count;
+        [self.heartRates removeAllObjects];
         [self saveHeartRate:bpm];
         self.lastSaveDate = [NSDate date];
     }

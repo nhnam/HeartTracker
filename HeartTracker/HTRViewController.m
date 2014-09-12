@@ -65,6 +65,14 @@
     [self.activityIndicator stopAnimating];
 }
 
+- (void)heartRateControllerDidDisconnectFromDevice:(HTRHeartRateController *)heartRateController
+{
+    [self.pulseTimer invalidate];
+    self.pulseTimer = nil;
+    [self.activityIndicator startAnimating];
+    self.heartRateLabel.text = @"";
+}
+
 #pragma mark - Animation Methods
 
 - (void)pulse

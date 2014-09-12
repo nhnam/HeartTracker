@@ -22,5 +22,6 @@
 
 - (void)heartRateControllerDidStartUpdates:(HTRHeartRateController *)heartRateController;
 - (void)heartRateController:(HTRHeartRateController *)heartRateController didUpdateHeartRate:(NSInteger)heartRate;
+- (void)heartRateControllerDidDisconnectFromDevice:(HTRHeartRateController *)heartRateController;
 
 @end
