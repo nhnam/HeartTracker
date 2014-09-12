@@ -20,6 +20,7 @@
 
 @protocol HTRHeartRateControllerDelegate <NSObject>
 
+- (void)heartRateControllerDidStartUpdates:(HTRHeartRateController *)heartRateController;
 - (void)heartRateController:(HTRHeartRateController *)heartRateController didUpdateHeartRate:(NSInteger)heartRate;
 
 @end

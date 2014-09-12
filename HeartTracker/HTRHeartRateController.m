@@ -170,6 +170,7 @@
             // Set notification on heart rate measurement
             if ( [aChar.UUID isEqual:[CBUUID UUIDWithString:@"2A37"]] ) {
                 [self.peripheral setNotifyValue:YES forCharacteristic:aChar];
+                [self.delegate heartRateControllerDidStartUpdates:self];
                 NSLog(@"Found a Heart Rate Measurement Characteristic");
             }
             
@@ -297,6 +298,8 @@
 - (void)dealloc
 {
     [self.manager stopScan];
+    self.peripheral.delegate = nil;
+    self.delegate = nil;
 }
 
 @end
