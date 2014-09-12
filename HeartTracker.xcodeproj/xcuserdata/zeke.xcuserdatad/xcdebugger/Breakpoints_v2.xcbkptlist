@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "HeartTracker/HTRViewController.m"
-            timestampString = "432184378.144031"
+            timestampString = "432184879.951662"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "-heartRateController:didUpdateHeartRate:"
             landmarkType = "5">
          </BreakpointContent>

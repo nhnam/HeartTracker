@@ -33,17 +33,28 @@
     self.heartRateController = [[HTRHeartRateController alloc] init];
     self.heartRateController.delegate = self;
     [self.heartRateController startMonitoringHeartRate];
+}
 
-    
-    
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - HeartRateController Delegate
 
 - (void)heartRateController:(HTRHeartRateController *)heartRateController didUpdateHeartRate:(NSInteger)heartRate
 {
-    self.heartRateLabel.text = [NSString stringWithFormat:@"%li", (long)heartRate];
-    self.heartRate = heartRate;
+    if ( heartRate != self.heartRate ) {
+        [UIView animateWithDuration:.1 animations:^{
+            self.heartRateLabel.alpha = 0;
+        } completion:^(BOOL finished) {
+            self.heartRateLabel.text = [NSString stringWithFormat:@"%li", (long)heartRate];
+            [UIView animateWithDuration:.1 animations:^{
+                self.heartRateLabel.alpha = 1;
+            }];
+        }];
+        self.heartRate = heartRate;
+    }
     if ( !self.pulseTimer ) {
         [self pulse];
     }
@@ -53,10 +64,6 @@
 {
     [self.activityIndicator stopAnimating];
 }
-
-
-
-
 
 #pragma mark - Animation Methods
 
@@ -76,57 +83,5 @@
     
     self.pulseTimer = [NSTimer scheduledTimerWithTimeInterval:(60. / self.heartRate) target:self selector:@selector(pulse) userInfo:nil repeats:NO];
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end
