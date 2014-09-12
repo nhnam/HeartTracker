@@ -7,8 +7,13 @@
 //
 
 #import "HTRViewController.h"
+#import "HTRHeartRateController.h"
 
-@interface HTRViewController ()
+@interface HTRViewController () <HTRHeartRateControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet UILabel *heartRateLabel;
+
+@property (nonatomic, strong) HTRHeartRateController *heartRateController;
 
 @end
 
@@ -17,13 +22,80 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.heartRateController = [[HTRHeartRateController alloc] init];
+    self.heartRateController.delegate = self;
+    [self.heartRateController startMonitoringHeartRate];
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
-- (void)didReceiveMemoryWarning
+#pragma mark - HeartRateController Delegate
+
+- (void)heartRateController:(HTRHeartRateController *)heartRateController didUpdateHeartRate:(NSInteger)heartRate
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    self.heartRateLabel.text = [NSString stringWithFormat:@"%li", (long)heartRate];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

@@ -21,6 +21,9 @@
 		B395E6BE19C2672C00DD7047 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B395E6A019C2672C00DD7047 /* UIKit.framework */; };
 		B395E6C619C2672C00DD7047 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B395E6C419C2672C00DD7047 /* InfoPlist.strings */; };
 		B395E6C819C2672C00DD7047 /* HeartTrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B395E6C719C2672C00DD7047 /* HeartTrackerTests.m */; };
+		B396D41419C26BB20021E39C /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B396D41319C26BB20021E39C /* HealthKit.framework */; };
+		B396D41619C26BC80021E39C /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B396D41519C26BC80021E39C /* CoreBluetooth.framework */; };
+		B396D41919C28CDB0021E39C /* HTRHeartRateController.m in Sources */ = {isa = PBXBuildFile; fileRef = B396D41819C28CDB0021E39C /* HTRHeartRateController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,11 @@
 		B395E6C319C2672C00DD7047 /* HeartTrackerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HeartTrackerTests-Info.plist"; sourceTree = "<group>"; };
 		B395E6C519C2672C00DD7047 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B395E6C719C2672C00DD7047 /* HeartTrackerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HeartTrackerTests.m; sourceTree = "<group>"; };
+		B396D41219C26BB20021E39C /* HeartTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HeartTracker.entitlements; sourceTree = "<group>"; };
+		B396D41319C26BB20021E39C /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		B396D41519C26BC80021E39C /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		B396D41719C28CDB0021E39C /* HTRHeartRateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HTRHeartRateController.h; sourceTree = "<group>"; };
+		B396D41819C28CDB0021E39C /* HTRHeartRateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HTRHeartRateController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,7 +68,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B396D41619C26BC80021E39C /* CoreBluetooth.framework in Frameworks */,
 				B395E69F19C2672C00DD7047 /* CoreGraphics.framework in Frameworks */,
+				B396D41419C26BB20021E39C /* HealthKit.framework in Frameworks */,
 				B395E6A119C2672C00DD7047 /* UIKit.framework in Frameworks */,
 				B395E69D19C2672C00DD7047 /* Foundation.framework in Frameworks */,
 			);
@@ -101,6 +111,8 @@
 		B395E69B19C2672C00DD7047 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B396D41519C26BC80021E39C /* CoreBluetooth.framework */,
+				B396D41319C26BB20021E39C /* HealthKit.framework */,
 				B395E69C19C2672C00DD7047 /* Foundation.framework */,
 				B395E69E19C2672C00DD7047 /* CoreGraphics.framework */,
 				B395E6A019C2672C00DD7047 /* UIKit.framework */,
@@ -112,6 +124,8 @@
 		B395E6A219C2672C00DD7047 /* HeartTracker */ = {
 			isa = PBXGroup;
 			children = (
+				B396D41719C28CDB0021E39C /* HTRHeartRateController.h */,
+				B396D41819C28CDB0021E39C /* HTRHeartRateController.m */,
 				B395E6AB19C2672C00DD7047 /* HTRAppDelegate.h */,
 				B395E6AC19C2672C00DD7047 /* HTRAppDelegate.m */,
 				B395E6AE19C2672C00DD7047 /* Main.storyboard */,
@@ -126,6 +140,7 @@
 		B395E6A319C2672C00DD7047 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				B396D41219C26BB20021E39C /* HeartTracker.entitlements */,
 				B395E6A419C2672C00DD7047 /* HeartTracker-Info.plist */,
 				B395E6A519C2672C00DD7047 /* InfoPlist.strings */,
 				B395E6A819C2672C00DD7047 /* main.m */,
@@ -200,6 +215,14 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Zeke Shearer";
 				TargetAttributes = {
+					B395E69819C2672C00DD7047 = {
+						DevelopmentTeam = PY485E6BTK;
+						SystemCapabilities = {
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
 					B395E6B919C2672C00DD7047 = {
 						TestTargetID = B395E69819C2672C00DD7047;
 					};
@@ -253,6 +276,7 @@
 				B395E6B319C2672C00DD7047 /* HTRViewController.m in Sources */,
 				B395E6A919C2672C00DD7047 /* main.m in Sources */,
 				B395E6AD19C2672C00DD7047 /* HTRAppDelegate.m in Sources */,
+				B396D41919C28CDB0021E39C /* HTRHeartRateController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,10 +401,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = HeartTracker/HeartTracker.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HeartTracker/HeartTracker-Prefix.pch";
 				INFOPLIST_FILE = "HeartTracker/HeartTracker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -390,10 +418,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = HeartTracker/HeartTracker.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HeartTracker/HeartTracker-Prefix.pch";
 				INFOPLIST_FILE = "HeartTracker/HeartTracker-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -457,6 +489,7 @@
 				B395E6CD19C2672C00DD7047 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B395E6CE19C2672C00DD7047 /* Build configuration list for PBXNativeTarget "HeartTrackerTests" */ = {
 			isa = XCConfigurationList;
@@ -465,6 +498,7 @@
 				B395E6D019C2672C00DD7047 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
